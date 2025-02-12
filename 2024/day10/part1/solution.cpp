@@ -2,16 +2,12 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "utils.h"
 
 
 void buildTopoMap(std::string filename, std::vector<std::vector<int>>& topoMap)
 {
-    std::ifstream inp{filename};
-    if (!inp.is_open())
-    {
-        std::cout << "unable to open file " << filename << std::endl;
-        return;
-    }
+    std::ifstream inp = openFile(filename);
     std::string line;
     while(std::getline(inp, line))
     {  
