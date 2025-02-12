@@ -4,11 +4,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
-
-int charToInt(char c)
-{
-    return c - '0';
-}
+#include "utils.h"
 
 void buildDiskMap(std::string filename, std::vector<std::string>& diskMap, std::unordered_map<std::string, int>& fileIdToSize)
 {
@@ -21,7 +17,7 @@ void buildDiskMap(std::string filename, std::vector<std::string>& diskMap, std::
     std::string line;
     while(std::getline(inp, line))
     {  
-        // std::cout << line << std::endl;
+
     }
     int blockId = 0;
     int i = 0;
