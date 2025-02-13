@@ -40,8 +40,9 @@ int main()
 {
     std::unordered_map<int, int> mapA;
     std::unordered_map<int, int> mapB;
-    std::string filename = "../test_input.txt";
+    std::string filename = "../input.txt";
     readInput(filename, mapA, mapB);
     int similarity = calculateSimilarity(mapA, mapB);
+    std::cout << "The similarity score between the two lists is: " << similarity << std::endl;
     return 0;
 }
