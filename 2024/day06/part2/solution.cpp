@@ -72,7 +72,7 @@ bool inBounds(int row, int col, std::vector<std::string>& labMap)
     return true;
 }
 
-int traverseMap(std::vector<std::string>& labMap, std::vector<int>& startPosition)
+bool traverseMap(std::vector<std::string>& labMap, std::vector<int>& startPosition)
 {
     int row = startPosition[0];
     int col = startPosition[1];
@@ -93,6 +93,7 @@ int traverseMap(std::vector<std::string>& labMap, std::vector<int>& startPositio
         }
         positionCounts[std::make_tuple(row, col)]++;
     }
+    return false;
 }
 
 void getPossibleObstaclePositions(std::vector<std::string>& labMap, std::vector<int>& startPosition, std::set<std::tuple<int, int>>& obstaclePositions)
@@ -113,7 +114,9 @@ void getPossibleObstaclePositions(std::vector<std::string>& labMap, std::vector<
         }
         if (labMap[row][col] == NOT_VISITED)
         {
-            if (row != startPosition[0] && col != startPosition[1])
+            if (row == startPosition[0] && col == startPosition[1])
+                continue;
+            else
                 obstaclePositions.insert(std::make_tuple(row, col));
         }
     }
@@ -121,7 +124,7 @@ void getPossibleObstaclePositions(std::vector<std::string>& labMap, std::vector<
 
 int main()
 {
-    std::string filename = "../input.txt";
+    std::string filename = "../test_input.txt";
     std::vector<int> guardPosition;
     std::vector<std::string> labMap;
     std::set<std::tuple<int, int>> obstaclePositions;
@@ -137,8 +140,8 @@ int main()
         bool loopDetected = traverseMap(labMap, guardPosition);
         if (loopDetected)
         {
-            std::cout << "Loop Detected! " << row << " " << col << std::endl;
             numLoops++;
+            std::cout << "Loop Detected! " << row << " " << col << " " << numLoops << " "<< checked << std::endl;
         }
         labMap[row][col] = NOT_VISITED;
         checked++;
