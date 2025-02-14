@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <tuple>
+#include <unordered_map>
 
 #include "utils.h"
 
@@ -12,6 +14,40 @@ char OBSTACLE = '#';
 char NOT_VISITED = '.';
 char VISITED = 'X';
 
+const std::unordered_map<char, char> newDirectionMap = {
+    {UP, RIGHT},
+    {RIGHT, DOWN},
+    {DOWN, LEFT},
+    {LEFT, UP}
+};
+
+const std::unordered_map<char, char> oppositeDirectionMap = {
+    {UP, DOWN},
+    {DOWN, UP},
+    {RIGHT, LEFT},
+    {LEFT, RIGHT}
+};
+
+std::tuple<int, int> move(int row, int col, char direction)
+{
+    if (direction == UP)
+        row -= 1;
+    else if (direction == DOWN)
+        row += 1;
+    else if (direction == LEFT)
+        col -= 1;
+    else if (direction == RIGHT)
+        col += 1;
+    return std::make_tuple(row, col);
+}
+
+bool inBounds(int row, int col, std::vector<std::string>& labMap)
+{
+    if (row > labMap.size() || row < 0 || col > labMap[0].size() || col < 0)
+        return false;
+    return true;
+}
+
 void buildPuzzleInput(std::string filename, std::vector<std::string>& labMap, std::vector<int>& guardPosition)
 {
     std::ifstream inp = openFile(filename);
@@ -22,8 +58,9 @@ void buildPuzzleInput(std::string filename, std::vector<std::string>& labMap, st
         labMap.push_back(line);
         for (int col = 0; col < line.size(); col++)
         {
-            if (line[col] == UP || line[col] || DOWN || line[col] == LEFT || line[col] == RIGHT)
+            if (line[col] == UP || line[col] == DOWN || line[col] == LEFT || line[col] == RIGHT)
             {
+                std::cout << "start pos is at: " << row << " " << col << std::endl;
                 guardPosition.push_back(row);
                 guardPosition.push_back(col);
             }
@@ -35,91 +72,27 @@ void buildPuzzleInput(std::string filename, std::vector<std::string>& labMap, st
 int traverseMap(std::vector<std::string>& labMap, std::vector<int>& guardPosition)
 {
     int numMoves = 0;
-    bool finished = false;
     int row = guardPosition[0];
     int col = guardPosition[1];
     char currentDirection = labMap[row][col];
-    while (!finished)
+    while (true)
     {
-        if (currentDirection == UP)
+        std::tie(row, col) = move(row, col, currentDirection);
+        if (!inBounds(row, col, labMap))
         {
-            int newRow = row - 1;
-            if (newRow < 0)
-            {
-                numMoves++;
-                finished = true;
-            }
-            else if (labMap[newRow][col] == OBSTACLE)
-                currentDirection = RIGHT;
-            else
-            {
-                if (labMap[newRow][col] == NOT_VISITED)
-                {
-                    labMap[newRow][col] = VISITED;
-                    numMoves++;
-                }
-                row = newRow;
-            }
+            numMoves++;
+            break;
         }
-        if (currentDirection == DOWN)
+        if (labMap[row][col] == OBSTACLE)
         {
-            int newRow = row + 1;
-            if (newRow > labMap.size())
-            {
-                numMoves++;
-                finished = true;
-            }
-            else if (labMap[newRow][col] == OBSTACLE)
-                currentDirection = LEFT;
-            else
-            {
-                if (labMap[newRow][col] == NOT_VISITED)
-                {
-                    labMap[newRow][col] = VISITED;
-                    numMoves++;
-                }
-                row = newRow;
-            }
+            std::tie(row, col) = move(row, col, oppositeDirectionMap.at(currentDirection));
+            currentDirection = newDirectionMap.at(currentDirection);
+            continue;
         }
-        if (currentDirection == RIGHT)
+        if (labMap[row][col] == NOT_VISITED)
         {
-            int newCol = col + 1;
-            if (newCol > labMap[0].size())
-            {
-                numMoves++;
-                finished = true;
-            }
-            else if (labMap[row][newCol] == OBSTACLE)
-                currentDirection = DOWN;
-            else
-            {
-                if (labMap[row][newCol] == NOT_VISITED)
-                {
-                    labMap[row][newCol] = VISITED;
-                    numMoves++;
-                }
-                col = newCol;
-            }
-        }
-        if (currentDirection == LEFT)
-        {
-            int newCol = col - 1;
-            if (newCol < 0)
-            {
-                numMoves++;
-                finished = true;
-            }
-            else if (labMap[row][newCol] == OBSTACLE)
-                currentDirection = UP;
-            else
-            {
-                if (labMap[row][newCol] == NOT_VISITED)
-                {
-                    labMap[row][newCol] = VISITED;
-                    numMoves++;
-                }
-                col = newCol;
-            }
+            labMap[row][col] = VISITED;
+            numMoves++;
         }
     }
     return numMoves;
@@ -127,7 +100,7 @@ int traverseMap(std::vector<std::string>& labMap, std::vector<int>& guardPositio
 
 int main()
 {
-    std::string filename = "../test_input.txt";
+    std::string filename = "../input.txt";
     std::vector<int> guardPosition;
     std::vector<std::string> labMap;
     buildPuzzleInput(filename, labMap, guardPosition);
