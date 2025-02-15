@@ -100,7 +100,7 @@ void fixPageOrder(std::vector<int>& page, std::unordered_map<int, std::unordered
 
 int main()
 {
-    std::string filename = "../test_input.txt";
+    std::string filename = "../input.txt";
     std::unordered_map<int, std::unordered_set<int>> rules;
     std::vector<std::vector<int>> pageNumbers;
     buildPuzzleInput(filename, rules, pageNumbers);

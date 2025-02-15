@@ -52,7 +52,7 @@ int findX(std::vector<std::string>& arr, std::string target)
 
 int main()
 {
-    std::string filename = "../test_input.txt";
+    std::string filename = "../input.txt";
     std::string targetWord = "MAS";
     std::vector<std::string> strArray;
     buildInput(filename, strArray);

@@ -43,13 +43,12 @@ std::vector<Point> getAntinodes(Point& a, Point& b)
 
 int main()
 {
-    std::string filename = "../test_input.txt";
+    std::string filename = "../input.txt";
     std::unordered_map<char, std::vector<Point>> antennaLocations;
     std::unordered_set<Point, PointHash, PointEqual> antinodes;
     buildAntennaLocations(filename, antennaLocations);
     for (const auto& pair : antennaLocations)
     {
-        char antenna = pair.first;
         std::vector<Point> locations = pair.second;
         for (size_t i = 0; i < locations.size(); i++)
         {

@@ -4,7 +4,7 @@
 #include <vector>
 #include <regex>
 
-#include "utils.h";
+#include "utils.h"
 
 
 void parseEquationsInput(std::string& filename, std::unordered_map<long, std::vector<long>>& equations)
@@ -45,7 +45,7 @@ bool work(long x, long targetNum, std::vector<long> rem)
 int main()
 {
     std::unordered_map<long, std::vector<long>> equations;
-    std::string filename = "../test_input.txt";
+    std::string filename = "../input.txt";
     parseEquationsInput(filename, equations);
     std::vector<char> operations{'+', '*'};
     long sum = 0;
