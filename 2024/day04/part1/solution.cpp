@@ -17,9 +17,7 @@ void buildInput(std::string filename, std::vector<std::string>& strArray)
 bool checkString(std::string sub, std::string target)
 {
     std::string reverseTarget(target.rbegin(), target.rend());
-    if (sub.compare(target) == 0 || sub.compare(reverseTarget) == 0)
-        return true;
-    return false;
+    return (sub.compare(target) == 0 || sub.compare(reverseTarget) == 0);
 }
 
 int findHorizontal(std::vector<std::string>& arr, std::string target)
@@ -95,12 +93,12 @@ int findDiagonal(std::vector<std::string>& arr, std::string target)
         }
         rowIdx++;
     }
-
+    return count;
 }
 
 int main()
 {
-    std::string filename = "../test_input.txt";
+    std::string filename = "../input.txt";
     std::string targetWord = "XMAS";
     std::vector<std::string> strArray;
     buildInput(filename, strArray);
