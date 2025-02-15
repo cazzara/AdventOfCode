@@ -34,7 +34,7 @@ Point addPoints(Point& a, Point& b)
 {
     return Point{a.x + b.x, a.y + b.y};
 }
-bool isPointInBounds(Point& p, size_t max_row, size_t max_col)
+bool isPointInBounds(Point& p, int64_t max_row, int64_t max_col)
 {
-    return (p.x < 0 || p.x >= max_row || p.y < 0 || p.y >= max_col);
+    return (p.x >= 0 && p.x < max_row && p.y >= 0 && p.y < max_col);
 }

@@ -30,6 +30,6 @@ struct PointEqual {
 std::string pointToString(Point& p);
 Point subtractPoints(Point& a, Point& b);
 Point addPoints(Point& a, Point& b);
-bool isPointInBounds(Point& p, size_t max_row, size_t max_col);
+bool isPointInBounds(Point& p, int64_t max_row, int64_t max_col);
 
 #endif

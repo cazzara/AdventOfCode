@@ -7,8 +7,8 @@
 #include "utils.h"
 
 
-static uint64_t MAX_ROW;
-static uint64_t MAX_COL;
+static int64_t MAX_ROW;
+static int64_t MAX_COL;
 
 void buildAntennaLocations(std::string& filename, std::unordered_map<char, std::vector<Point>>& antennaLocations)
 {
@@ -17,11 +17,11 @@ void buildAntennaLocations(std::string& filename, std::unordered_map<char, std::
     int row = 0;
     while (std::getline(inp, line))
     {
-        for (int col = 0; col < line.size(); col++)
+        for (size_t col = 0; col < line.size(); col++)
         {
             if (line[col] != '.')
             {
-                Point p = {row, col};
+                Point p = {row, static_cast<int64_t>(col)};
                 antennaLocations[line[col]].push_back(p);
                 MAX_COL = line.size();
             }
@@ -47,6 +47,7 @@ int main()
     std::unordered_map<char, std::vector<Point>> antennaLocations;
     std::unordered_set<Point, PointHash, PointEqual> antinodes;
     buildAntennaLocations(filename, antennaLocations);
+    std::cout << "MAX_ROW " << MAX_ROW << " MAX_COL " << MAX_COL << std::endl;
     for (const auto& pair : antennaLocations)
     {
         std::vector<Point> locations = pair.second;
@@ -58,7 +59,9 @@ int main()
                 for (auto& node : potentialAntinodes)
                 {
                     if (isPointInBounds(node, MAX_ROW, MAX_COL))
+                    {
                         antinodes.insert(node);
+                    }
                 }
             }
         }

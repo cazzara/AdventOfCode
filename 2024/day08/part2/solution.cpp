@@ -7,8 +7,8 @@
 #include "utils.h"
 
 
-static uint64_t MAX_ROW;
-static uint64_t MAX_COL;
+static int64_t MAX_ROW;
+static int64_t MAX_COL;
 
 void buildAntennaLocations(std::string& filename, std::unordered_map<char, std::vector<Point>>& antennaLocations)
 {
@@ -17,11 +17,11 @@ void buildAntennaLocations(std::string& filename, std::unordered_map<char, std::
     int row = 0;
     while (std::getline(inp, line))
     {
-        for (int col = 0; col < line.size(); col++)
+        for (size_t col = 0; col < line.size(); col++)
         {
             if (line[col] != '.')
             {
-                Point p = {row, col};
+                Point p = {row, static_cast<int64_t>(col)};
                 antennaLocations[line[col]].push_back(p);
                 MAX_COL = line.size();
             }
@@ -60,7 +60,6 @@ int main()
     buildAntennaLocations(filename, antennaLocations);
     for (const auto& pair : antennaLocations)
     {
-        char antenna = pair.first;
         std::vector<Point> locations = pair.second;
         for (size_t i = 0; i < locations.size(); i++)
         {
