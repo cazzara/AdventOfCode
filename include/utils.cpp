@@ -38,3 +38,15 @@ bool isPointInBounds(Point& p, int64_t max_row, int64_t max_col)
 {
     return (p.x >= 0 && p.x < max_row && p.y >= 0 && p.y < max_col);
 }
+
+Point UP = {-1, 0};
+Point DOWN = {1, 0};
+Point LEFT = {0, -1};
+Point RIGHT = {0, 1};
+
+const std::unordered_map<Point, std::string, PointHash, PointEqual> pointStrMap = {
+    {UP, "UP"},
+    {DOWN, "DOWN"},
+    {LEFT, "LEFT"},
+    {RIGHT, "RIGHT"}
+};

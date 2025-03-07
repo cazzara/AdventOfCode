@@ -27,17 +27,12 @@ struct PointEqual {
     }
 };
 
-Point UP = {-1, 0};
-Point DOWN = {1, 0};
-Point LEFT = {0, -1};
-Point RIGHT = {0, 1};
+extern Point UP;
+extern Point DOWN;
+extern Point LEFT;
+extern Point RIGHT;
 
-std::unordered_map<Point, std::string, PointHash, PointEqual> pointStrMap = {
-    {UP, "UP"},
-    {DOWN, "DOWN"},
-    {LEFT, "LEFT"},
-    {RIGHT, "RIGHT"}
-};
+extern const std::unordered_map<Point, std::string, PointHash, PointEqual> pointStrMap;
 
 std::string pointToString(Point& p);
 Point subtractPoints(Point& a, Point& b);
