@@ -31,7 +31,7 @@ void buildAntennaLocations(std::string& filename, std::unordered_map<char, std::
     MAX_ROW = row;
 }
 
-std::vector<Point> getAntinodes(Point& a, Point& b)
+std::vector<Point> getAntinodes(const Point& a, const Point& b)
 {
     Point c = subtractPoints(a, b);
     Point an1 = addPoints(a, c);
@@ -56,7 +56,7 @@ int main()
             for (size_t j = i + 1; j < locations.size(); j++)
             {
                 std::vector<Point> potentialAntinodes = getAntinodes(locations[i], locations[j]);
-                for (auto& node : potentialAntinodes)
+                for (const auto& node : potentialAntinodes)
                 {
                     if (isPointInBounds(node, MAX_ROW, MAX_COL))
                     {

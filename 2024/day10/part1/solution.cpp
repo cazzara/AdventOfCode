@@ -7,16 +7,16 @@
 
 #include "utils.h"
 
-Point UP = {-1, 0};
-Point DOWN = {1, 0};
-Point LEFT = {0, -1};
-Point RIGHT = {0, 1};
-std::unordered_map<Point, std::string, PointHash, PointEqual> pointStrMap = {
-    {UP, "UP"},
-    {DOWN, "DOWN"},
-    {LEFT, "LEFT"},
-    {RIGHT, "RIGHT"}
-};
+// Point UP = {-1, 0};
+// Point DOWN = {1, 0};
+// Point LEFT = {0, -1};
+// Point RIGHT = {0, 1};
+// std::unordered_map<Point, std::string, PointHash, PointEqual> pointStrMap = {
+//     {UP, "UP"},
+//     {DOWN, "DOWN"},
+//     {LEFT, "LEFT"},
+//     {RIGHT, "RIGHT"}
+// };
 const int TRAIL_BEGIN = 0;
 const int TRAIL_END = 9;
 
@@ -58,7 +58,7 @@ void buildTopoMap(std::string& filename, std::vector<std::vector<int>>& topoMap,
  * A move is valid if the next position is within the bound of the map and 
  * the value at the next position is strictly 1 greater than the value at the current position
  */
-bool isMoveValid(Point& pos, Point& movement, std::vector<std::vector<int>>& topoMap)
+bool isMoveValid(const Point& pos, Point& movement, std::vector<std::vector<int>>& topoMap)
 {
     Point nextPos = addPoints(pos, movement);
     if (!isPointInBounds(nextPos, topoMap.size(), topoMap[0].size()))
@@ -70,7 +70,7 @@ bool isMoveValid(Point& pos, Point& movement, std::vector<std::vector<int>>& top
     return true;
 }
 
-int navigateTrail(Point& start, Point& direction, std::vector<std::vector<int>>& topoMap, std::unordered_set<Point, PointHash, PointEqual>& visited)
+int navigateTrail(const Point& start, Point& direction, std::vector<std::vector<int>>& topoMap, std::unordered_set<Point, PointHash, PointEqual>& visited)
 {
     Point newPos = addPoints(start, direction);
     if (visited.count(newPos) == 1)
@@ -78,6 +78,7 @@ int navigateTrail(Point& start, Point& direction, std::vector<std::vector<int>>&
         std::cout << "Already visited " << pointToString(newPos) << "\n";
         return 0;
     }
+
     std::cout << "Moving from " << pointToString(start) << " " << pointStrMap[direction]  << " to " << pointToString(newPos) <<  std::endl;
     if (!isMoveValid(start, direction, topoMap))
     {
@@ -94,7 +95,7 @@ int navigateTrail(Point& start, Point& direction, std::vector<std::vector<int>>&
     return navigateTrail(newPos, UP, topoMap, visited) + navigateTrail(newPos, DOWN, topoMap, visited) + navigateTrail(newPos, LEFT, topoMap, visited) + navigateTrail(newPos, RIGHT, topoMap, visited);
 }
 
-int calculateTrailHeadScore(Point& start, std::vector<std::vector<int>>& topoMap)
+int calculateTrailHeadScore(const Point& start, std::vector<std::vector<int>>& topoMap)
 {
     std::unordered_set<Point, PointHash, PointEqual> visited;
     return navigateTrail(start, UP, topoMap, visited) + navigateTrail(start, DOWN, topoMap, visited) + navigateTrail(start, LEFT, topoMap, visited) + navigateTrail(start, RIGHT, topoMap, visited);
@@ -109,7 +110,7 @@ int main()
     std::vector<Point> peaks;
     std::string filename = "../input.txt";
     buildTopoMap(filename, topoMap, trailHeads, peaks);
-    for (Point& trailHead : trailHeads)
+    for (const Point& trailHead : trailHeads)
     {
         std::cout << "Navigating starting at trailhead:" << pointToString(trailHead) << std::endl;
         int trailHeadScore = calculateTrailHeadScore(trailHead, topoMap);

@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-std::ifstream openFile(std::string filename);
+std::ifstream openFile(const std::string& filename);
 
 int charToInt(char c);
 
@@ -32,11 +32,11 @@ extern Point DOWN;
 extern Point LEFT;
 extern Point RIGHT;
 
-extern const std::unordered_map<Point, std::string, PointHash, PointEqual> pointStrMap;
+extern std::unordered_map<Point, std::string, PointHash, PointEqual> pointStrMap;
 
-std::string pointToString(Point& p);
-Point subtractPoints(Point& a, Point& b);
-Point addPoints(Point& a, Point& b);
-bool isPointInBounds(Point& p, int64_t max_row, int64_t max_col);
+std::string pointToString(const Point& p);
+Point subtractPoints(const Point& a, const Point& b);
+Point addPoints(const Point& a, const Point& b);
+bool isPointInBounds(const Point& p, const int64_t max_row, const int64_t max_col);
 
 #endif
